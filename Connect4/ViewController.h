@@ -9,7 +9,11 @@
 #import <UIKit/UIKit.h>
 
 @interface ViewController : UIViewController
+{
+    // to count number of turns
+    int turns;
+}
 
+- (IBAction)spacePress:(UIButton *)sender;
 
 @end
-
