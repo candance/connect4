@@ -10,6 +10,51 @@
 
 @interface ViewController ()
 
+@property (nonatomic, strong) NSMutableArray *buttonArray;
+
+@property (weak, nonatomic) IBOutlet UIButton *Button1;
+@property (weak, nonatomic) IBOutlet UIButton *Button2;
+@property (weak, nonatomic) IBOutlet UIButton *Button3;
+@property (weak, nonatomic) IBOutlet UIButton *Button4;
+@property (weak, nonatomic) IBOutlet UIButton *Button5;
+@property (weak, nonatomic) IBOutlet UIButton *Button6;
+@property (weak, nonatomic) IBOutlet UIButton *Button7;
+@property (weak, nonatomic) IBOutlet UIButton *Button8;
+@property (weak, nonatomic) IBOutlet UIButton *Button9;
+@property (weak, nonatomic) IBOutlet UIButton *Button10;
+@property (weak, nonatomic) IBOutlet UIButton *Button11;
+@property (weak, nonatomic) IBOutlet UIButton *Button12;
+@property (weak, nonatomic) IBOutlet UIButton *Button13;
+@property (weak, nonatomic) IBOutlet UIButton *Button14;
+@property (weak, nonatomic) IBOutlet UIButton *Button15;
+@property (weak, nonatomic) IBOutlet UIButton *Button16;
+@property (weak, nonatomic) IBOutlet UIButton *Button17;
+@property (weak, nonatomic) IBOutlet UIButton *Button18;
+@property (weak, nonatomic) IBOutlet UIButton *Button19;
+@property (weak, nonatomic) IBOutlet UIButton *Button20;
+@property (weak, nonatomic) IBOutlet UIButton *Button21;
+@property (weak, nonatomic) IBOutlet UIButton *Button22;
+@property (weak, nonatomic) IBOutlet UIButton *Button23;
+@property (weak, nonatomic) IBOutlet UIButton *Button24;
+@property (weak, nonatomic) IBOutlet UIButton *Button25;
+@property (weak, nonatomic) IBOutlet UIButton *Button26;
+@property (weak, nonatomic) IBOutlet UIButton *Button27;
+@property (weak, nonatomic) IBOutlet UIButton *Button28;
+@property (weak, nonatomic) IBOutlet UIButton *Button29;
+@property (weak, nonatomic) IBOutlet UIButton *Button30;
+@property (weak, nonatomic) IBOutlet UIButton *Button31;
+@property (weak, nonatomic) IBOutlet UIButton *Button32;
+@property (weak, nonatomic) IBOutlet UIButton *Button33;
+@property (weak, nonatomic) IBOutlet UIButton *Button34;
+@property (weak, nonatomic) IBOutlet UIButton *Button35;
+@property (weak, nonatomic) IBOutlet UIButton *Button36;
+@property (weak, nonatomic) IBOutlet UIButton *Button37;
+@property (weak, nonatomic) IBOutlet UIButton *Button38;
+@property (weak, nonatomic) IBOutlet UIButton *Button39;
+@property (weak, nonatomic) IBOutlet UIButton *Button40;
+@property (weak, nonatomic) IBOutlet UIButton *Button41;
+@property (weak, nonatomic) IBOutlet UIButton *Button42;
+
 @end
 
 @implementation ViewController
@@ -18,6 +63,22 @@
     [super viewDidLoad];
     // set turns to 0 at start
     turns = 0;
+    
+    // put buttons into a 2D array
+    NSMutableArray *buttonArray = [[NSMutableArray alloc] initWithCapacity: 42];
+    
+    [buttonArray insertObject:[NSMutableArray arrayWithObjects: self.Button1, self.Button2, self.Button3, self.Button4, self.Button5, self.Button6, self.Button7, nil] atIndex: 0];
+    [buttonArray insertObject:[NSMutableArray arrayWithObjects: self.Button8, self.Button9, self.Button10, self.Button11, self.Button12, self.Button13, self.Button14, nil] atIndex: 1];
+    [buttonArray insertObject:[NSMutableArray arrayWithObjects: self.Button15, self.Button16, self.Button17, self.Button18, self.Button19, self.Button20, self.Button21, nil] atIndex: 2];
+    [buttonArray insertObject:[NSMutableArray arrayWithObjects: self.Button22, self.Button23, self.Button24, self.Button25, self.Button26, self.Button27, self.Button28, nil] atIndex: 3];
+    [buttonArray insertObject:[NSMutableArray arrayWithObjects: self.Button29, self.Button30, self.Button31, self.Button32, self.Button33, self.Button34, self.Button35, nil] atIndex: 4];
+    [buttonArray insertObject:[NSMutableArray arrayWithObjects: self.Button36, self.Button37, self.Button38, self.Button39, self.Button40, self.Button41, self.Button42, nil] atIndex: 5];
+
+}
+
+- (void)buttonPressed:(UIButton *)sender {
+    int index = [self.buttonArray indexOfObject:sender];
+    // Now handle the button press based
 }
 
 - (void)didReceiveMemoryWarning {
@@ -101,146 +162,13 @@
 
 -(BOOL) checkForWin {
     
-    // assign index to each button
-    UIButton *Button1 = (UIButton *)[self.view viewWithTag:1];
-    UIButton *Button2 = (UIButton *)[self.view viewWithTag:2];
-    UIButton *Button3 = (UIButton *)[self.view viewWithTag:3];
-    UIButton *Button4 = (UIButton *)[self.view viewWithTag:4];
-    UIButton *Button5 = (UIButton *)[self.view viewWithTag:5];
-    UIButton *Button6 = (UIButton *)[self.view viewWithTag:6];
-    UIButton *Button7 = (UIButton *)[self.view viewWithTag:7];
-    UIButton *Button8 = (UIButton *)[self.view viewWithTag:8];
-    UIButton *Button9 = (UIButton *)[self.view viewWithTag:9];
-    UIButton *Button10 = (UIButton *)[self.view viewWithTag:10];
-    UIButton *Button11 = (UIButton *)[self.view viewWithTag:11];
-    UIButton *Button12 = (UIButton *)[self.view viewWithTag:12];
-    UIButton *Button13 = (UIButton *)[self.view viewWithTag:13];
-    UIButton *Button14 = (UIButton *)[self.view viewWithTag:14];
-    UIButton *Button15 = (UIButton *)[self.view viewWithTag:15];
-    UIButton *Button16 = (UIButton *)[self.view viewWithTag:16];
-    UIButton *Button17 = (UIButton *)[self.view viewWithTag:17];
-    UIButton *Button18 = (UIButton *)[self.view viewWithTag:18];
-    UIButton *Button19 = (UIButton *)[self.view viewWithTag:19];
-    UIButton *Button20 = (UIButton *)[self.view viewWithTag:20];
-    UIButton *Button21 = (UIButton *)[self.view viewWithTag:21];
-//    UIButton *Button22 = (UIButton *)[self.view viewWithTag:122];
-//    UIButton *Button23 = (UIButton *)[self.view viewWithTag:123];
-//    UIButton *Button24 = (UIButton *)[self.view viewWithTag:124];
-//    UIButton *Button25 = (UIButton *)[self.view viewWithTag:125];
-//    UIButton *Button26 = (UIButton *)[self.view viewWithTag:126];
-//    UIButton *Button27 = (UIButton *)[self.view viewWithTag:127];
-//    UIButton *Button28 = (UIButton *)[self.view viewWithTag:128];
-//    UIButton *Button29 = (UIButton *)[self.view viewWithTag:129];
-//    UIButton *Button30 = (UIButton *)[self.view viewWithTag:130];
-//    UIButton *Button31 = (UIButton *)[self.view viewWithTag:131];
-//    UIButton *Button32 = (UIButton *)[self.view viewWithTag:132];
-//    UIButton *Button33 = (UIButton *)[self.view viewWithTag:133];
-//    UIButton *Button34 = (UIButton *)[self.view viewWithTag:134];
-//    UIButton *Button35 = (UIButton *)[self.view viewWithTag:135];
-//    UIButton *Button36 = (UIButton *)[self.view viewWithTag:136];
-//    UIButton *Button37 = (UIButton *)[self.view viewWithTag:137];
-//    UIButton *Button38 = (UIButton *)[self.view viewWithTag:138];
-//    UIButton *Button39 = (UIButton *)[self.view viewWithTag:139];
-//    UIButton *Button40 = (UIButton *)[self.view viewWithTag:140];
-//    UIButton *Button41 = (UIButton *)[self.view viewWithTag:141];
-//    UIButton *Button42 = (UIButton *)[self.view viewWithTag:142];
-    
-    // HORIZONTAL WINS
-    // horizontal line 1
-    if ([Button1.currentImage isEqual:Button2.currentImage] &&
-//       (Button2.currentImage == Button3.currentImage) &
-//       (Button3.currentImage == Button4.currentImage) &
-        (Button1.currentImage != NULL))
-    {
-        return YES;
-    }
-    
-//    if ((Button2.currentImage == Button3.currentImage) &&
-//       (Button3.currentImage == Button4.currentImage) &&
-//       (Button4.currentImage == Button5.currentImage) &&
-//       (Button2.currentImage != NULL))
-//    {
-//        return YES;
-//    }
-//    
-//    if ((Button3.currentImage == Button4.currentImage) &&
-//       (Button4.currentImage == Button5.currentImage) &&
-//       (Button5.currentImage == Button6.currentImage) &&
-//       (Button3.currentImage != NULL))
-//    {
-//        return YES;
-//    }
-//    
-//    if ((Button4.currentImage == Button5.currentImage) &&
-//       (Button5.currentImage == Button6.currentImage) &&
-//       (Button6.currentImage == Button7.currentImage) &&
-//       (Button4.currentImage != NULL))
-//    {
-//        return YES;
-//    }
-//    
-//    // horizontal line 2
-//    if ((Button8.currentImage == Button9.currentImage) &
-//       (Button9.currentImage == Button10.currentImage) &
-//       (Button10.currentImage == Button11.currentImage) &
-//       (Button8.currentImage != NULL))
-//    {
-//        return YES;
-//    }
-//    
-//    if ((Button9.currentImage == Button10.currentImage) &
-//       (Button10.currentImage == Button11.currentImage) &
-//       (Button11.currentImage == Button12.currentImage) &
-//       (Button9.currentImage != NULL))
-//    {
-//        return YES;
-//    }
-//    
-//    if ((Button10.currentImage == Button11.currentImage) &
-//       (Button11.currentImage == Button12.currentImage) &
-//       (Button12.currentImage == Button13.currentImage) &
-//       (Button10.currentImage != NULL))
-//    {
-//        return YES;
-//    }
-//    
-//    if ((Button11.currentImage == Button12.currentImage) &
-//       (Button12.currentImage == Button13.currentImage) &
-//       (Button13.currentImage == Button14.currentImage) &
-//       (Button11.currentImage != NULL))
-//    {
-//        return YES;
-//    }
-//    
-//    // horizontal line 3
-//    if ((Button15.currentImage == Button16.currentImage) &
-//       (Button16.currentImage == Button17.currentImage) &
-//       (Button17.currentImage == Button18.currentImage) &
-//       (Button15.currentImage != NULL))
-//    {
-//        return YES;
-//    }
-//    
-//    if ((Button16.currentImage == Button17.currentImage) &
-//       (Button17.currentImage == Button18.currentImage) &
-//       (Button18.currentImage == Button19.currentImage) &
-//       (Button16.currentImage != NULL))
-//    {
-//        return YES;
-//    }
-//    
-//    if ((Button17.currentImage == Button18.currentImage) &
-//       (Button18.currentImage == Button19.currentImage) &
-//       (Button19.currentImage == Button20.currentImage) &
-//       (Button17.currentImage != NULL))
-//    {
-//        return YES;
-//    }
-//    
-//    if ((Button18.currentImage == Button19.currentImage) &
-//       (Button19.currentImage == Button20.currentImage) &
-//       (Button20.currentImage == Button21.currentImage) &
-//       (Button18.currentImage != NULL))
+
+//    // HORIZONTAL WINS
+//    // horizontal line 1
+//    if ([_Button1.currentImage isEqual:_Button2.currentImage] &&
+////       (Button2.currentImage == Button3.currentImage) &
+////       (Button3.currentImage == Button4.currentImage) &
+//        (_Button1.currentImage != NULL))
 //    {
 //        return YES;
 //    }
