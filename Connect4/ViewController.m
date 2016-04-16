@@ -234,6 +234,33 @@
             }
         }
     }
+    
+    // VERTICAL WINS
+    // iterating over row number 3 and above (since less than 3 means there is no 4 in a 'column')
+    for (int row = 3; row < totalNumberOfRows; row ++) {
+        NSMutableArray *arrayToCheck = [self.buttonArray objectAtIndex:row];
+        // iterating over each column
+        for (int column = 0; column < totalNumberOfColumns; column ++) {
+            // if button is filled with a player number
+            if (![[arrayToCheck objectAtIndex:column] isEqual: @0]) {
+                NSMutableArray *nextRowToCheck = [self.buttonArray objectAtIndex:row - 1];
+                NSMutableArray *next2ndRowToCheck = [self.buttonArray objectAtIndex:row - 2];
+                NSMutableArray *next3rdRowToCheck = [self.buttonArray objectAtIndex:row - 3];
+                if ([arrayToCheck objectAtIndex:column] == [nextRowToCheck objectAtIndex:column] &&
+                    [nextRowToCheck objectAtIndex:column] == [next2ndRowToCheck objectAtIndex:column] &&
+                    [next2ndRowToCheck objectAtIndex:column] == [next3rdRowToCheck objectAtIndex:column]) {
+                    return YES;
+                }
+            }
+        }
+    }
+        
+
+
+    
+    
+    
+    
     return NO;
 }
 
