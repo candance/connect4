@@ -226,6 +226,7 @@
         for (int column = 3; column < totalNumberOfColumns; column ++) {
             // if button is filled with a player number
             if (![[arrayToCheck objectAtIndex:column] isEqual: @0]) {
+                    // check if values are the same 4 in a row
                     if ([arrayToCheck objectAtIndex:column] == [arrayToCheck objectAtIndex:column - 1] &&
                         [arrayToCheck objectAtIndex:column - 1] == [arrayToCheck objectAtIndex:column - 2] &&
                         [arrayToCheck objectAtIndex:column - 2] == [arrayToCheck objectAtIndex:column - 3]){
@@ -243,9 +244,11 @@
         for (int column = 0; column < totalNumberOfColumns; column ++) {
             // if button is filled with a player number
             if (![[arrayToCheck objectAtIndex:column] isEqual: @0]) {
+                // make new variables to allow check across different rows
                 NSMutableArray *nextRowToCheck = [self.buttonArray objectAtIndex:row - 1];
                 NSMutableArray *next2ndRowToCheck = [self.buttonArray objectAtIndex:row - 2];
                 NSMutableArray *next3rdRowToCheck = [self.buttonArray objectAtIndex:row - 3];
+                // check if values are the same 4 in a column
                 if ([arrayToCheck objectAtIndex:column] == [nextRowToCheck objectAtIndex:column] &&
                     [nextRowToCheck objectAtIndex:column] == [next2ndRowToCheck objectAtIndex:column] &&
                     [next2ndRowToCheck objectAtIndex:column] == [next3rdRowToCheck objectAtIndex:column]) {
@@ -255,12 +258,49 @@
         }
     }
         
-
-
+    // DIAGONAL WINS: "\"
+    // iterating over row number 3 and above (since less than 3 means there is no 4 in a 'diagonal')
+    for (int row = 3; row < totalNumberOfRows; row ++) {
+        NSMutableArray *arrayToCheck = [self.buttonArray objectAtIndex:row];
+        // iterating over column number 3 and above (since less than 3 means there is no 4 in a 'diagonal')
+        for (int column = 3; column < totalNumberOfColumns; column ++) {
+            // if button is filled with a player number
+            if (![[arrayToCheck objectAtIndex:column] isEqual: @0]) {
+                // make new variables to allow check across different rows
+                NSMutableArray *nextRowToCheck = [self.buttonArray objectAtIndex:row - 1];
+                NSMutableArray *next2ndRowToCheck = [self.buttonArray objectAtIndex:row - 2];
+                NSMutableArray *next3rdRowToCheck = [self.buttonArray objectAtIndex:row - 3];
+                // check if values are the same diagonally in this way: "\"
+                if ([arrayToCheck objectAtIndex:column] == [nextRowToCheck objectAtIndex:column - 1] &&
+                    [nextRowToCheck objectAtIndex:column - 1] == [next2ndRowToCheck objectAtIndex:column - 2] &&
+                    [next2ndRowToCheck objectAtIndex:column - 2] == [next3rdRowToCheck objectAtIndex:column - 3]) {
+                    return YES;
+                }
+            }
+        }
+    }
     
-    
-    
-    
+    // DIAGONAL WINS: "/"
+    // iterating over row number 3 and above (since less than 3 means there is no 4 in a 'diagonal')
+    for (int row = 3; row < totalNumberOfRows; row ++) {
+        NSMutableArray *arrayToCheck = [self.buttonArray objectAtIndex:row];
+        // iterating over each column
+        for (int column = 0; column < totalNumberOfColumns; column ++) {
+            // if button is filled with a player number
+            if (![[arrayToCheck objectAtIndex:column] isEqual: @0]) {
+                // make new variables to allow check across different rows
+                NSMutableArray *nextRowToCheck = [self.buttonArray objectAtIndex:row - 1];
+                NSMutableArray *next2ndRowToCheck = [self.buttonArray objectAtIndex:row - 2];
+                NSMutableArray *next3rdRowToCheck = [self.buttonArray objectAtIndex:row - 3];
+                // check if values are the same diagonally in this way: "/"
+                if ([arrayToCheck objectAtIndex:column] == [nextRowToCheck objectAtIndex:column + 1] &&
+                    [nextRowToCheck objectAtIndex:column + 1] == [next2ndRowToCheck objectAtIndex:column + 2] &&
+                    [next2ndRowToCheck objectAtIndex:column + 2] == [next3rdRowToCheck objectAtIndex:column + 3]) {
+                    return YES;
+                }
+            }
+        }
+    }
     return NO;
 }
 
