@@ -79,19 +79,19 @@
 
 - (IBAction)spacePress:(UIButton *)sender {
     // the button tag testing
-    NSInteger i = [sender tag];
-    NSLog(@"test %ld", i);
+    NSInteger buttonTagPickedByPlayer1 = [sender tag];
+    NSLog(@"test %ld", buttonTagPickedByPlayer1);
     
     // the button that was clicked by the user gets an red circle
-    UIButton *tmpButton = (UIButton *)[self.view viewWithTag:i];
+    UIButton *tmpButton = (UIButton *)[self.view viewWithTag:buttonTagPickedByPlayer1];
     UIImage *redImage = [[UIImage imageNamed:@"red.gif"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     [tmpButton setImage: redImage forState:UIControlStateNormal];
     
     // update 2D array of board with tagged button and player number
-    [self updateButtonArrayWithButtonTag:i andPlayerNumber: @1];
+    [self updateButtonArrayWithButtonTag:buttonTagPickedByPlayer1 andPlayerNumber: @1];
     
     // set tag to outside possible range so computer can't select same button
-    [tmpButton setTag: i + 100];
+    [tmpButton setTag: buttonTagPickedByPlayer1 + 100];
     turns++;
 
     // if user wins
@@ -115,15 +115,15 @@
     // if there are turns left
     if (turns < 42) {
         // randomly select a number (button) for the computer's turn
-        int r = arc4random() % 42;
+        int buttonTagPickedByComp = arc4random() % 42;
         
         // sets number to button
-        UIButton *compButton = (UIButton *)[self.view viewWithTag:r];
+        UIButton *compButton = (UIButton *)[self.view viewWithTag:buttonTagPickedByComp];
     
         // ensure button is selectable, else choose another
-        while (![[compButton.superview viewWithTag:r] isKindOfClass:[UIButton class]]) {
-            r = arc4random() % 42;
-            compButton = (UIButton *)[self.view viewWithTag:r]; NSLog(@"random %d", r);
+        while (![[compButton.superview viewWithTag:buttonTagPickedByComp] isKindOfClass:[UIButton class]]) {
+            buttonTagPickedByComp = arc4random() % 42;
+            compButton = (UIButton *)[self.view viewWithTag:buttonTagPickedByComp]; NSLog(@"random %d", buttonTagPickedByComp);
         }
         
         // the button that was chosen by computer gets an yellow circle
@@ -131,10 +131,10 @@
         [compButton setImage: yellowImage forState:UIControlStateNormal];
         
         // update 2D array of board with tagged button and computer number
-        [self updateButtonArrayWithButtonTag:r andPlayerNumber:@2];
+        [self updateButtonArrayWithButtonTag:buttonTagPickedByComp andPlayerNumber:@2];
 
         // set tag to outside possible range so user can't select same button
-        [compButton setTag:r + 100];
+        [compButton setTag:buttonTagPickedByComp + 100];
         turns++;
     
         // if computer wins
@@ -159,7 +159,7 @@
 
 
 // calculate index for pressed button
-// update buttonarray with new index [myMutableArray replaceObjectAtIndex:index withObject:newObject];
+// update buttonArray with new index
 - (void)updateButtonArrayWithButtonTag:(NSInteger)buttonTag andPlayerNumber:(NSNumber *)playerNumber {
     
     NSInteger rowIndex;
@@ -215,10 +215,25 @@
 
 - (BOOL)checkForWin {
     
+    NSInteger totalNumberOfRows = 6;
+    NSInteger totalNumberOfColumns = 7;
+    
     // HORIZONTAL WINS
-    
-
-    
+    // iterating over each row
+    for (int row = 0; row < totalNumberOfRows; row ++) {
+        NSMutableArray *arrayToCheck = [self.buttonArray objectAtIndex:row];
+        // iterating over column number 3 and above (since less than 3 means there is no 4 in a row)
+        for (int column = 3; column < totalNumberOfColumns; column ++) {
+            // if button is filled with a player number
+            if (![[arrayToCheck objectAtIndex:column] isEqual: @0]) {
+                    if ([arrayToCheck objectAtIndex:column] == [arrayToCheck objectAtIndex:column - 1] &&
+                        [arrayToCheck objectAtIndex:column - 1] == [arrayToCheck objectAtIndex:column - 2] &&
+                        [arrayToCheck objectAtIndex:column - 2] == [arrayToCheck objectAtIndex:column - 3]){
+                            return YES;
+                        }
+            }
+        }
+    }
     return NO;
 }
 
