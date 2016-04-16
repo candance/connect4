@@ -67,23 +67,14 @@
     // put buttons into a 2D array
     NSMutableArray *buttonArray = [[NSMutableArray alloc] initWithCapacity: 42];
     
-    [buttonArray insertObject:[NSMutableArray arrayWithObjects: self.Button1, self.Button2, self.Button3, self.Button4, self.Button5, self.Button6, self.Button7, nil] atIndex: 0];
-    [buttonArray insertObject:[NSMutableArray arrayWithObjects: self.Button8, self.Button9, self.Button10, self.Button11, self.Button12, self.Button13, self.Button14, nil] atIndex: 1];
-    [buttonArray insertObject:[NSMutableArray arrayWithObjects: self.Button15, self.Button16, self.Button17, self.Button18, self.Button19, self.Button20, self.Button21, nil] atIndex: 2];
-    [buttonArray insertObject:[NSMutableArray arrayWithObjects: self.Button22, self.Button23, self.Button24, self.Button25, self.Button26, self.Button27, self.Button28, nil] atIndex: 3];
-    [buttonArray insertObject:[NSMutableArray arrayWithObjects: self.Button29, self.Button30, self.Button31, self.Button32, self.Button33, self.Button34, self.Button35, nil] atIndex: 4];
-    [buttonArray insertObject:[NSMutableArray arrayWithObjects: self.Button36, self.Button37, self.Button38, self.Button39, self.Button40, self.Button41, self.Button42, nil] atIndex: 5];
-
-}
-
-- (void)buttonPressed:(UIButton *)sender {
-    int index = [self.buttonArray indexOfObject:sender];
-    // Now handle the button press based
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    [buttonArray insertObject: [NSMutableArray arrayWithObjects: @0, @0, @0, @0, @0, @0, @0, nil] atIndex: 0];
+    [buttonArray insertObject:[NSMutableArray arrayWithObjects: @0, @0, @0, @0, @0, @0, @0, nil] atIndex: 1];
+    [buttonArray insertObject:[NSMutableArray arrayWithObjects: @0, @0, @0, @0, @0, @0, @0, nil] atIndex: 2];
+    [buttonArray insertObject:[NSMutableArray arrayWithObjects: @0, @0, @0, @0, @0, @0, @0, nil] atIndex: 3];
+    [buttonArray insertObject:[NSMutableArray arrayWithObjects: @0, @0, @0, @0, @0, @0, @0, nil] atIndex: 4];
+    [buttonArray insertObject:[NSMutableArray arrayWithObjects: @0, @0, @0, @0, @0, @0, @0, nil] atIndex: 5];
+    
+    self.buttonArray = buttonArray;
 }
 
 - (IBAction)spacePress:(UIButton *)sender {
@@ -96,7 +87,10 @@
     UIImage *redImage = [[UIImage imageNamed:@"red.gif"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     [tmpButton setImage: redImage forState:UIControlStateNormal];
     
-    // set tag to outside possible range so computer can't select same button (chose 100 for easier check win)
+    // update 2D array of board with tagged button and player number
+    [self updateButtonArrayWithButtonTag:i andPlayerNumber: @1];
+    
+    // set tag to outside possible range so computer can't select same button
     [tmpButton setTag: i + 100];
     turns++;
 
@@ -135,6 +129,9 @@
         // the button that was chosen by computer gets an yellow circle
         UIImage *yellowImage = [[UIImage imageNamed:@"yellow.gif"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
         [compButton setImage: yellowImage forState:UIControlStateNormal];
+        
+        // update 2D array of board with tagged button and computer number
+        [self updateButtonArrayWithButtonTag:r andPlayerNumber:@2];
 
         // set tag to outside possible range so user can't select same button
         [compButton setTag:r + 100];
@@ -160,18 +157,67 @@
     }
 }
 
--(BOOL) checkForWin {
+
+// calculate index for pressed button
+// update buttonarray with new index [myMutableArray replaceObjectAtIndex:index withObject:newObject];
+- (void)updateButtonArrayWithButtonTag:(NSInteger)buttonTag andPlayerNumber:(NSNumber *)playerNumber {
+    
+    NSInteger rowIndex;
+    
+    if (buttonTag <= 7) {
+        rowIndex = 0;
+    }
+    else if (buttonTag >= 8 && buttonTag <= 14) {
+        rowIndex = 1;
+    }
+    else if (buttonTag >= 15 && buttonTag <= 21) {
+        rowIndex = 2;
+    }
+    else if (buttonTag >= 22 && buttonTag <= 28) {
+        rowIndex = 3;
+    }
+    else if (buttonTag >= 29 && buttonTag <= 35) {
+        rowIndex = 4;
+    }
+    else {
+        rowIndex = 5;
+    }
+    
+    NSInteger totalNumberOfColumns = 7;
+    NSInteger columnIndex;
+    
+    if (buttonTag % totalNumberOfColumns == 1) {
+        columnIndex = 0;
+    }
+    else if (buttonTag % totalNumberOfColumns == 2) {
+        columnIndex = 1;
+    }
+    else if (buttonTag % totalNumberOfColumns == 3) {
+        columnIndex = 2;
+    }
+    else if (buttonTag % totalNumberOfColumns == 4) {
+        columnIndex = 3;
+    }
+    else if (buttonTag % totalNumberOfColumns == 5) {
+        columnIndex = 4;
+    }
+    else if (buttonTag % totalNumberOfColumns == 6) {
+        columnIndex = 5;
+    }
+    else {
+        columnIndex = 6;
+    }
+    
+    NSMutableArray *arrayToUpdate = [self.buttonArray objectAtIndex:rowIndex];
+    [arrayToUpdate replaceObjectAtIndex:columnIndex withObject:playerNumber];
+    
+}
+
+- (BOOL)checkForWin {
+    
+    // HORIZONTAL WINS
     
 
-//    // HORIZONTAL WINS
-//    // horizontal line 1
-//    if ([_Button1.currentImage isEqual:_Button2.currentImage] &&
-////       (Button2.currentImage == Button3.currentImage) &
-////       (Button3.currentImage == Button4.currentImage) &
-//        (_Button1.currentImage != NULL))
-//    {
-//        return YES;
-//    }
     
     return NO;
 }
