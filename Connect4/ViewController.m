@@ -124,8 +124,8 @@
         turns = 43;
     }
     
-    // Delay computer action by 1.2 secs
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1.2 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+    // Delay computer action by 1.5 secs
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1.5 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
         // if there are turns left
         if (turns < 42) {
             // randomly select a number (button) for the computer's turn
