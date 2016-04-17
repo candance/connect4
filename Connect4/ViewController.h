@@ -16,4 +16,6 @@
 
 - (IBAction)spacePress:(UIButton *)sender;
 
+- (IBAction)resetGame:(UIButton *)sender;
+
 @end

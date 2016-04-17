@@ -11,6 +11,7 @@
 @interface ViewController ()
 
 @property (nonatomic, strong) NSMutableArray *buttonArray;
+@property (weak, nonatomic) IBOutlet UIButton *resetButton;
 
 @property (weak, nonatomic) IBOutlet UIButton *Button1;
 @property (weak, nonatomic) IBOutlet UIButton *Button2;
@@ -64,6 +65,10 @@
     // set turns to 0 at start
     turns = 0;
     
+    self.resetButton.layer.borderColor = [UIColor colorWithRed:102.0/255.0 green:255.0/255.0 blue:255.0/255.0 alpha:5.0].CGColor;
+    self.resetButton.layer.borderWidth = 2;
+    self.resetButton.layer.cornerRadius = 5;
+    
     // put buttons into a 2D array
     NSMutableArray *buttonArray = [[NSMutableArray alloc] initWithCapacity: 42];
     
@@ -90,12 +95,11 @@
     // update 2D array of board with tagged button and player number
     [self updateButtonArrayWithButtonTag:buttonTagPickedByPlayer1 andPlayerNumber: @1];
     
-    // set tag to outside possible range so computer can't select same button
-    [tmpButton setTag: buttonTagPickedByPlayer1 + 100];
     turns++;
 
     // if user wins
     if ([self checkForWin]) {
+
         UIAlertController *alert = [UIAlertController
                                         alertControllerWithTitle:@"You won!"
                                         message:@"You beat the computer!"
@@ -109,6 +113,7 @@
                                    }];
         
         [alert addAction:okAction];
+        [self presentViewController:alert animated:YES completion:nil];
         turns = 43;
     }
     
@@ -123,7 +128,8 @@
         // ensure button is selectable, else choose another
         while (![[compButton.superview viewWithTag:buttonTagPickedByComp] isKindOfClass:[UIButton class]]) {
             buttonTagPickedByComp = arc4random() % 42;
-            compButton = (UIButton *)[self.view viewWithTag:buttonTagPickedByComp]; NSLog(@"random %d", buttonTagPickedByComp);
+            compButton = (UIButton *)[self.view viewWithTag:buttonTagPickedByComp];
+            NSLog(@"random %d", buttonTagPickedByComp);
         }
         
         // the button that was chosen by computer gets an yellow circle
@@ -133,8 +139,6 @@
         // update 2D array of board with tagged button and computer number
         [self updateButtonArrayWithButtonTag:buttonTagPickedByComp andPlayerNumber:@2];
 
-        // set tag to outside possible range so user can't select same button
-        [compButton setTag:buttonTagPickedByComp + 100];
         turns++;
     
         // if computer wins
@@ -152,6 +156,7 @@
                                    }];
         
             [alert addAction:okAction];
+            [self presentViewController:alert animated:YES completion:nil];
             turns = 43;
         }
     }
@@ -226,12 +231,12 @@
         for (int column = 3; column < totalNumberOfColumns; column ++) {
             // if button is filled with a player number
             if (![[arrayToCheck objectAtIndex:column] isEqual: @0]) {
-                    // check if values are the same 4 in a row
-                    if ([arrayToCheck objectAtIndex:column] == [arrayToCheck objectAtIndex:column - 1] &&
-                        [arrayToCheck objectAtIndex:column - 1] == [arrayToCheck objectAtIndex:column - 2] &&
-                        [arrayToCheck objectAtIndex:column - 2] == [arrayToCheck objectAtIndex:column - 3]){
-                            return YES;
-                        }
+                // check if values are the same 4 in a row
+                if ([arrayToCheck objectAtIndex:column] == [arrayToCheck objectAtIndex:column - 1] &&
+                    [arrayToCheck objectAtIndex:column - 1] == [arrayToCheck objectAtIndex:column - 2] &&
+                    [arrayToCheck objectAtIndex:column - 2] == [arrayToCheck objectAtIndex:column - 3]){
+                        return YES;
+                }
             }
         }
     }
@@ -252,7 +257,7 @@
                 if ([arrayToCheck objectAtIndex:column] == [nextRowToCheck objectAtIndex:column] &&
                     [nextRowToCheck objectAtIndex:column] == [next2ndRowToCheck objectAtIndex:column] &&
                     [next2ndRowToCheck objectAtIndex:column] == [next3rdRowToCheck objectAtIndex:column]) {
-                    return YES;
+                        return YES;
                 }
             }
         }
@@ -292,16 +297,84 @@
                 NSMutableArray *nextRowToCheck = [self.buttonArray objectAtIndex:row - 1];
                 NSMutableArray *next2ndRowToCheck = [self.buttonArray objectAtIndex:row - 2];
                 NSMutableArray *next3rdRowToCheck = [self.buttonArray objectAtIndex:row - 3];
-                // check if values are the same diagonally in this way: "/"
-                if ([arrayToCheck objectAtIndex:column] == [nextRowToCheck objectAtIndex:column + 1] &&
-                    [nextRowToCheck objectAtIndex:column + 1] == [next2ndRowToCheck objectAtIndex:column + 2] &&
-                    [next2ndRowToCheck objectAtIndex:column + 2] == [next3rdRowToCheck objectAtIndex:column + 3]) {
-                    return YES;
+                // make sure index at column + 3 is valid
+                if (column + 3 < 7){
+                    // check if values are the same diagonally in this way: "/"
+                    if ([arrayToCheck objectAtIndex:column] == [nextRowToCheck objectAtIndex:column + 1] &&
+                        [nextRowToCheck objectAtIndex:column + 1] == [next2ndRowToCheck objectAtIndex:column + 2] &&
+                        [next2ndRowToCheck objectAtIndex:column + 2] == [next3rdRowToCheck objectAtIndex:column + 3]) {
+                        return YES;
+                    }
+
                 }
             }
         }
     }
     return NO;
+}
+
+- (IBAction)resetGame:(UIButton *)sender {
+    [self resetBoard];
+}
+
+- (void)resetBoard {
+    [self.Button1 setImage:NULL forState:UIControlStateNormal];
+    [self.Button2 setImage:NULL forState:UIControlStateNormal];
+    [self.Button3 setImage:NULL forState:UIControlStateNormal];
+    [self.Button4 setImage:NULL forState:UIControlStateNormal];
+    [self.Button5 setImage:NULL forState:UIControlStateNormal];
+    [self.Button6 setImage:NULL forState:UIControlStateNormal];
+    [self.Button7 setImage:NULL forState:UIControlStateNormal];
+    [self.Button8 setImage:NULL forState:UIControlStateNormal];
+    [self.Button9 setImage:NULL forState:UIControlStateNormal];
+    [self.Button10 setImage:NULL forState:UIControlStateNormal];
+    [self.Button11 setImage:NULL forState:UIControlStateNormal];
+    [self.Button12 setImage:NULL forState:UIControlStateNormal];
+    [self.Button13 setImage:NULL forState:UIControlStateNormal];
+    [self.Button14 setImage:NULL forState:UIControlStateNormal];
+    [self.Button15 setImage:NULL forState:UIControlStateNormal];
+    [self.Button16 setImage:NULL forState:UIControlStateNormal];
+    [self.Button17 setImage:NULL forState:UIControlStateNormal];
+    [self.Button18 setImage:NULL forState:UIControlStateNormal];
+    [self.Button19 setImage:NULL forState:UIControlStateNormal];
+    [self.Button20 setImage:NULL forState:UIControlStateNormal];
+    [self.Button21 setImage:NULL forState:UIControlStateNormal];
+    [self.Button22 setImage:NULL forState:UIControlStateNormal];
+    [self.Button23 setImage:NULL forState:UIControlStateNormal];
+    [self.Button24 setImage:NULL forState:UIControlStateNormal];
+    [self.Button25 setImage:NULL forState:UIControlStateNormal];
+    [self.Button26 setImage:NULL forState:UIControlStateNormal];
+    [self.Button27 setImage:NULL forState:UIControlStateNormal];
+    [self.Button28 setImage:NULL forState:UIControlStateNormal];
+    [self.Button29 setImage:NULL forState:UIControlStateNormal];
+    [self.Button30 setImage:NULL forState:UIControlStateNormal];
+    [self.Button31 setImage:NULL forState:UIControlStateNormal];
+    [self.Button32 setImage:NULL forState:UIControlStateNormal];
+    [self.Button33 setImage:NULL forState:UIControlStateNormal];
+    [self.Button34 setImage:NULL forState:UIControlStateNormal];
+    [self.Button35 setImage:NULL forState:UIControlStateNormal];
+    [self.Button36 setImage:NULL forState:UIControlStateNormal];
+    [self.Button37 setImage:NULL forState:UIControlStateNormal];
+    [self.Button38 setImage:NULL forState:UIControlStateNormal];
+    [self.Button39 setImage:NULL forState:UIControlStateNormal];
+    [self.Button40 setImage:NULL forState:UIControlStateNormal];
+    [self.Button41 setImage:NULL forState:UIControlStateNormal];
+    [self.Button42 setImage:NULL forState:UIControlStateNormal];
+
+    turns = 0;
+    
+    NSInteger totalNumberOfRows = 6;
+    NSInteger totalNumberOfColumns = 7;
+    
+    // reset array to @0
+    // iterating over each row
+    for (int row = 0; row < totalNumberOfRows; row ++) {
+        NSMutableArray *arrayToReset = [self.buttonArray objectAtIndex:row];
+        // iterating over each column
+        for (int column = 0; column < totalNumberOfColumns; column ++) {
+            [arrayToReset replaceObjectAtIndex:column withObject:@0];
+        }
+    }
 }
 
 @end
