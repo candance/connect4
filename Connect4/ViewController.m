@@ -56,6 +56,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *Button41;
 @property (weak, nonatomic) IBOutlet UIButton *Button42;
 
+@property (weak, nonatomic) IBOutlet UILabel *turnLabel;
+
 @end
 
 @implementation ViewController
@@ -64,6 +66,8 @@
     [super viewDidLoad];
     // set turns to 0 at start
     turns = 0;
+    
+    self.turnLabel.text = @"Welcome! Tap a space to start game!";
     
     self.resetButton.layer.borderColor = [UIColor colorWithRed:102.0/255.0 green:255.0/255.0 blue:255.0/255.0 alpha:5.0].CGColor;
     self.resetButton.layer.borderWidth = 2;
@@ -92,6 +96,9 @@
     UIImage *redImage = [[UIImage imageNamed:@"red.gif"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     [tmpButton setImage: redImage forState:UIControlStateNormal];
     
+    // change turnLabel to computer's thinking
+    self.turnLabel.text = @"Computer's thinking...";
+    
     // update 2D array of board with tagged button and player number
     [self updateButtonArrayWithButtonTag:buttonTagPickedByPlayer1 andPlayerNumber: @1];
     
@@ -99,7 +106,7 @@
 
     // if user wins
     if ([self checkForWin]) {
-
+        self.turnLabel.text = nil;
         UIAlertController *alert = [UIAlertController
                                         alertControllerWithTitle:@"You won!"
                                         message:@"You beat the computer!"
@@ -117,51 +124,58 @@
         turns = 43;
     }
     
-    // if there are turns left
-    if (turns < 42) {
-        // randomly select a number (button) for the computer's turn
-        int buttonTagPickedByComp = arc4random() % 42;
-        
-        // sets number to button
-        UIButton *compButton = (UIButton *)[self.view viewWithTag:buttonTagPickedByComp];
-    
-        // ensure button is selectable, else choose another
-        while (![[compButton.superview viewWithTag:buttonTagPickedByComp] isKindOfClass:[UIButton class]]) {
-            buttonTagPickedByComp = arc4random() % 42;
-            compButton = (UIButton *)[self.view viewWithTag:buttonTagPickedByComp];
-            NSLog(@"random %d", buttonTagPickedByComp);
+    // Delay computer action by 1.2 secs
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1.2 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+        // if there are turns left
+        if (turns < 42) {
+            // randomly select a number (button) for the computer's turn
+            int buttonTagPickedByComp = arc4random() % 42;
+            
+            // sets number to button
+            UIButton *compButton = (UIButton *)[self.view viewWithTag:buttonTagPickedByComp];
+            
+            // ensure button is selectable, else choose another
+            while (![[compButton.superview viewWithTag:buttonTagPickedByComp] isKindOfClass:[UIButton class]]) {
+                buttonTagPickedByComp = arc4random() % 42;
+                compButton = (UIButton *)[self.view viewWithTag:buttonTagPickedByComp];
+                NSLog(@"random %d", buttonTagPickedByComp);
+            }
+            
+            // the button that was chosen by computer gets an yellow circle
+            UIImage *yellowImage = [[UIImage imageNamed:@"yellow.gif"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+            
+            [compButton setImage: yellowImage forState:UIControlStateNormal];
+            
+            // change turnLabel to player's turn
+            self.turnLabel.text = @"Your turn!";
+            
+            // update 2D array of board with tagged button and computer number
+            [self updateButtonArrayWithButtonTag:buttonTagPickedByComp andPlayerNumber:@2];
+            
+            turns++;
+            
+            // if computer wins
+            if ([self checkForWin]) {
+                self.turnLabel.text = nil;
+                UIAlertController *alert = [UIAlertController
+                                            alertControllerWithTitle:@"Computer won!"
+                                            message:@"You got beat the computer!"
+                                            preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertAction *okAction = [UIAlertAction
+                                           actionWithTitle:NSLocalizedString(@"OK", @"OK action")
+                                           style:UIAlertActionStyleDefault
+                                           handler:^(UIAlertAction *action)
+                                           {
+                                               NSLog(@"OK action");
+                                           }];
+                
+                [alert addAction:okAction];
+                [self presentViewController:alert animated:YES completion:nil];
+                turns = 43;
+            }
         }
-        
-        // the button that was chosen by computer gets an yellow circle
-        UIImage *yellowImage = [[UIImage imageNamed:@"yellow.gif"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-        [compButton setImage: yellowImage forState:UIControlStateNormal];
-        
-        // update 2D array of board with tagged button and computer number
-        [self updateButtonArrayWithButtonTag:buttonTagPickedByComp andPlayerNumber:@2];
-
-        turns++;
-    
-        // if computer wins
-        if ([self checkForWin]) {
-            UIAlertController *alert = [UIAlertController
-                                    alertControllerWithTitle:@"Computer won!"
-                                    message:@"You got beat the computer!"
-                                    preferredStyle:UIAlertControllerStyleAlert];
-            UIAlertAction *okAction = [UIAlertAction
-                                   actionWithTitle:NSLocalizedString(@"OK", @"OK action")
-                                   style:UIAlertActionStyleDefault
-                                   handler:^(UIAlertAction *action)
-                                   {
-                                       NSLog(@"OK action");
-                                   }];
-        
-            [alert addAction:okAction];
-            [self presentViewController:alert animated:YES completion:nil];
-            turns = 43;
-        }
-    }
+    });
 }
-
 
 // calculate index for pressed button
 // update buttonArray with new index
@@ -362,6 +376,8 @@
     [self.Button42 setImage:NULL forState:UIControlStateNormal];
 
     turns = 0;
+    
+    self.turnLabel.text = @"Tap a space to start game!";
     
     NSInteger totalNumberOfRows = 6;
     NSInteger totalNumberOfColumns = 7;
