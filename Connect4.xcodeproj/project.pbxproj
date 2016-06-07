@@ -216,7 +216,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0730;
-				ORGANIZATIONNAME = captainMewBu;
+				ORGANIZATIONNAME = candance;
 				TargetAttributes = {
 					0D3457BA1CBC144C006272EB = {
 						CreatedOnToolsVersion = 7.3;
@@ -435,7 +435,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Connect4/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.capMewBu.Connect4;
+				PRODUCT_BUNDLE_IDENTIFIER = com.candance.Connect4;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -446,7 +446,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Connect4/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.capMewBu.Connect4;
+				PRODUCT_BUNDLE_IDENTIFIER = com.candance.Connect4;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
